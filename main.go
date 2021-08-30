@@ -3,7 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
-	scaffoldingProv "packer-plugin-salt/provisioner/salt-masterless"
+
+	saltmasterlessprovisioner "github.com/hashicorp/packer-plugin-salt/provisioner/salt-masterless"
 
 	"github.com/hashicorp/packer-plugin-sdk/plugin"
 	"github.com/hashicorp/packer-plugin-sdk/version"
@@ -25,7 +26,7 @@ var (
 
 func main() {
 	pps := plugin.NewSet()
-	pps.RegisterProvisioner("masterless", new(scaffoldingProv.Provisioner))
+	pps.RegisterProvisioner("masterless", new(saltmasterlessprovisioner.Provisioner))
 	pps.SetVersion(PluginVersion)
 	err := pps.Run()
 	if err != nil {
