@@ -1,40 +1,23 @@
 packer {
   required_plugins {
-    scaffolding = {
-      version = ">=v0.1.0"
-      source  = "github.com/hashicorp/scaffolding"
+    salt = {
+      version = ">=v1.0.0"
+      source  = "github.com/hashicorp/salt"
     }
   }
 }
 
-source "scaffolding-my-builder" "foo-example" {
-  mock = local.foo
-}
-
-source "scaffolding-my-builder" "bar-example" {
+source "happycloud "bar-example" {
   mock = local.bar
 }
 
 build {
-  sources = [
-    "source.scaffolding-my-builder.foo-example",
-  ]
 
-  source "source.scaffolding-my-builder.bar-example" {
+  source "source.happycloud.bar-example" {
     name = "bar"
   }
 
-  provisioner "scaffolding-my-provisioner" {
-    only = ["scaffolding-my-builder.foo-example"]
-    mock = "foo: ${local.foo}"
-  }
-
-  provisioner "scaffolding-my-provisioner" {
-    only = ["scaffolding-my-builder.bar"]
-    mock = "bar: ${local.bar}"
-  }
-
-  post-processor "scaffolding-my-post-processor" {
-    mock = "post-processor mock-config"
+  provisioner "salt-masterless" {
+    local_state_tree = "/Users/me/salt"
   }
 }
